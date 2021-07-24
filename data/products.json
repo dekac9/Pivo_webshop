@@ -1,0 +1,20 @@
+[
+  {
+      "id": 1,
+      "title": "Hoptopod IPA",
+      "img": {
+          "src": "images/hoptopod-ipa-500ml",
+          "alt": "veliki hoptopod"
+      },
+      "description": "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma, za sve ljubitelje autentičnog India Pale Ale stila. Američka škola pivarstva i strast prema pivu učinili su da ovo hmeljno čudovište ostavi upečatljiv utisak nakon svakog ispijenog gutljaja",
+      "stars": 3,
+      "alcohol": "6.5% vol",
+      "extract":"15.5 p",
+      "price": {
+          "old": 310,
+          "new": 280
+      },
+      "categoryID": 2
+  }
+]
+  
