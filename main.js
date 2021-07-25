@@ -82,11 +82,18 @@ if(korisnici_svi==null){
 
 var odgovor = document.getElementById("odgovor");
 
+
+//provera REGEX za email
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 var registruj = document.getElementById("registruj");
 if(registruj!=null){
   registruj.addEventListener("click",(e)=>{
     e.preventDefault();
-
+    
     var ime = document.getElementById("ime").value.trim();
     var prezime = document.getElementById("prezime").value.trim();
     var korime = document.getElementById("korime").value.trim();
@@ -99,6 +106,11 @@ if(registruj!=null){
       return;
     }
 
+    //deo provere emaila regexima
+    if(!validateEmail(email)){
+      alert("los email");
+      return;
+    }
 
     
     var potvrda = document.getElementById("potvrda").value;
@@ -116,6 +128,7 @@ if(registruj!=null){
   });
 }
 
+// LOGOVANJE
 var uloguj = document.getElementById("uloguj");
 if(uloguj!=null){
   // u slucaju da je korisnik vec ulogovan, sakriva se login forma

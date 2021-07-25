@@ -6,15 +6,142 @@
           "src": "images/hoptopod-ipa-500ml",
           "alt": "veliki hoptopod"
       },
-      "description": "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma, za sve ljubitelje autentičnog India Pale Ale stila. Američka škola pivarstva i strast prema pivu učinili su da ovo hmeljno čudovište ostavi upečatljiv utisak nakon svakog ispijenog gutljaja",
+      "description": "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma",
       "stars": 3,
       "alcohol": "6.5% vol",
       "extract":"15.5 p",
       "price": {
           "old": 310,
           "new": 280
-      },
-      "categoryID": 2
-  }
+      }      
+  },
+  {
+    "id": 2,
+    "title": "Hoptopod IPA mali",
+    "img": {
+        "src": "images/hoptopod-ipa-330ml",
+        "alt": "mali hoptopod"
+    },
+    "description": "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
+    "stars": 3,
+    "alcohol": "6.5% vol",
+    "extract":"15.5 p",
+    "price": {
+        "old": 270,
+        "new": 250
+    }      
+},
+{
+  "id": 3,
+  "title": "New pills on the block",
+  "img": {
+      "src": "images/new-pils-on-the-block-german-pilsner-500ml",
+      "alt": "veliki NPONTB"
+  },
+  "description": "U svetu modernog kraft pivarstva svi pominju povratak korenima. “Back to basics, back to basics” - šapuće se u pivarskim kuloarima.",
+  "stars": 4,
+  "alcohol": "4.7% vol",
+  "extract":"11.1 p",
+  "price": {
+      "old": 300,
+      "new": 256
+  }      
+},
+{
+  "id": 4,
+  "title": "New pills on the block mali",
+  "img": {
+      "src": "images/new-pils-on-the-block-german-pilsner-330ml",
+      "alt": "mali NPONTB"
+  },
+  "description": "U svetu modernog kraft pivarstva svi pominju povratak korenima. “Back to basics, back to basics” - šapuće se u pivarskim kuloarima.",
+  "stars": 4,
+  "alcohol": "4.7% vol",
+  "extract":"11.1 p",
+  "price": {
+      "old": 285,
+      "new": 215
+  }      
+},
+{
+  "id": 5,
+  "title": "MISS QUINCE Ale",
+  "img": {
+      "src": "images/miss-quince-ale-limenka-330ml",
+      "alt": "mali Quincey"
+  },
+  "description": "Miss Quince je jedinstveno pivo na domaćoj pivskoj sceni. Lagani pale ale dodatno je aromatski pojačan dodatkom sveže dunje u kuvanju i virpulu.",
+  "stars": 2,
+  "alcohol": "5.5% vol",
+  "extract":"13.0 p",
+  "price": {
+      "old": 250,
+      "new": 210
+  }      
+},
+{
+  "id": 6,
+  "title": "Svetionik veliki",
+  "img": {
+      "src": "images/svetionik-pale-ale-500ml",
+      "alt": "veliki svetionik"
+  },
+  "description": "Ekstremna pitkost, čiju aromu osvetljavaju mango, narandža, mandarina i grejpfrut, pokazaće vam pažljivo zahmeljen put do svetlog ejla simboličnog naziva.",
+  "stars": 5,
+  "alcohol": "5.5% vol",
+  "extract":"13.0 p",
+  "price": {
+      "old": 285,
+      "new": 260
+  }      
+},
+{
+  "id": 7,
+  "title": "Svetionik mali",
+  "img": {
+      "src": "images/svetionik-pale-ale-330ml",
+      "alt": "mali svetionik"
+  },
+  "description": "Ekstremna pitkost, čiju aromu osvetljavaju mango, narandža, mandarina i grejpfrut, pokazaće vam pažljivo zahmeljen put do svetlog ejla simboličnog naziva.",
+  "stars": 5,
+  "alcohol": "5.5% vol",
+  "extract":"13.0 p",
+  "price": {
+      "old": 210,
+      "new": 195
+  }      
+},
+{
+  "id": 8,
+  "title": "Intruder gin",
+  "img": {
+      "src": "images/intruder-double-destilled-gin-700ml",
+      "alt": "Intruder gin"
+  },
+  "description": "Duplo destilovani džin proizveden dvostrukom destilacijom Dogminog piva uz drugu destilaciju sa klekom, korijanderom i kardamonom.",
+  "stars": 1,
+  "alcohol": "40% vol",
+  "extract":"-",
+  "price": {
+      "old": 3900,
+      "new": 3500
+  }      
+},
+{
+  "id": 9,
+  "title": "Juice it up veliki",
+  "img": {
+      "src": "images/juice-it-up-ddh-dipa-500ml",
+      "alt": "Juice it up veliki"
+  },
+  "description": "Znate ono kad odete u kafanu pa naručite -najskuplju pesmu- koja promeni sve? Ukratko, takva će vam biti i iskustva sa ovim pivom!",
+  "stars": 5,
+  "alcohol": "8% vol",
+  "extract":"-",
+  "price": {
+      "old": 370,
+      "new": 320
+  }      
+}
 ]
   
