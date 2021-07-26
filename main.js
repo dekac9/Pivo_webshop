@@ -34,10 +34,120 @@ function printStars(brojZvezdica) {
 
 */
 
-// ya rad sa local storageom:
+// za rad sa local storageom:
 //korisnici - svi korisnici
 //korisnik  - trenutno ulogovan korisnik
 
+
+//Konstruktor za proizvode 
+function proizvod(title,img_src,img_alt,description,stars,alchohol,extract,price_old,price_new){
+  this.title=title,
+  this.img_src=img_src,
+  this.img_alt=img_alt,
+  this.description=description,
+  this.stars=stars,
+  this.alchohol=alchohol,
+  this.extract=extract,
+  this.price_old=price_old,
+  this.price_new=price_new
+}
+
+//Kao i za korisnike, napravio sam f-je koje cu zvati za dohvatanje i zapisivanje u local storage
+
+var get_proizvodi = () =>{
+  return JSON.parse(localStorage.getItem("proizvodi"));
+}
+
+var set_proizvodi = (proizvodi)=>{
+  localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
+}
+
+//i ovde sam na silu ubacio jedan, prvi proizvod da bih video kakav mi je ispis. Moze posle da se izbrise
+
+if(get_proizvodi()==null){
+  var svi_proizvodi=[
+    new proizvod("Hoptopod IPA","images/hoptopod-ipa-500ml.png","veliki hoptopod","Pivo koje ce rasplamsati sva vasa cula! Tehnikom suvog hmeljenja stvorili smo pitku i snaznu kombinaciju tropskih i cvetnih aroma.",3,"6.5% vol","15.5",310,280)
+  ];
+  set_proizvodi(svi_proizvodi);
+}
+
+//ispisivanje iz skupa svi_proizvodi iz LS-a na mesto prikaz_proizvodi
+var prikaz_proizvodi=document.getElementById("prikaz_proizvodi");
+if(prikaz_proizvodi!=null){
+  var svi_proizvodi = get_proizvodi();
+  for(var i=0;i<svi_proizvodi.length;i++){
+
+    //ovo mi je samo da manje pisem
+    var pr = svi_proizvodi[i];
+
+    //sve ispod ispis svakog propertija objekta u div za ispis
+    var div = document.createElement("div");
+    div.classList.add("col-4");
+    div.classList.add("text-center");
+
+
+    var img = document.createElement("img");
+    img.src=pr.img_src;
+    img.alt=pr.img_alt;
+    img.style.width="100%";
+    div.appendChild(img);
+
+
+    var h3 = document.createElement("h3");
+    h3.innerHTML=pr.title;
+    div.appendChild(h3);
+
+
+    var p = document.createElement("p");
+    p.innerHTML=pr.description;
+    div.appendChild(p);
+
+
+    var p2 = document.createElement("p");
+    var del = document.createElement("del");
+    del.innerHTML=pr.price_old;
+    p2.innerHTML=pr.price_new+"";
+    p2.appendChild(del);
+    div.appendChild(p2);
+
+
+    var button = document.createElement("button");
+    button.classList.add("btn");
+    button.classList.add("btn-success");
+    button.innerHTML="dodaj u korpu";
+    div.appendChild(button);
+    button.setAttribute("obj",JSON.stringify(pr));
+    button.addEventListener("click",(e)=>{
+      var dugme = e.target;
+
+      var pr = JSON.parse(dugme.getAttribute("obj"));
+
+      var kor = get_korisnik();
+      if(kor==null){
+        alert("morate biti ulogovani da bi dodavali proizvode u korpu")
+      }else{
+        kor.korpa.push(pr);
+
+        var svi_korisnici=get_korisnici();
+        for(var i=0;i<svi_korisnici.length;i++){
+          if(svi_korisnici[i].korime==kor.korime){
+            svi_korisnici[i]=kor;
+            //ubacivanje proizvoda i u korpu trenutnog posetioca ali i u spisak svih posetilaca, za dalje posete
+            set_korisnici(svi_korisnici);
+            set_korisnik(kor);
+            alert("dodato u korpu");
+            return
+          };
+        };
+      };
+    });
+
+    prikaz_proizvodi.appendChild(div);
+  };
+};
+
+
+//Konstruktor za korisnike
 function korisnik(ime,prezime,korime,lozinka,email){
   this.ime=ime;
   this.prezime=prezime;
@@ -45,7 +155,7 @@ function korisnik(ime,prezime,korime,lozinka,email){
   this.lozinka=lozinka;
   this.email=email;
   this.korpa=[];
-}
+};
 
 
 // get_korisnici: citanje svih korisnika iz Local storage-a
