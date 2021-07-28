@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Pocetna</a>
+                  <a class="nav-link active" aria-current="page" href="index.html">Pocetna</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="login.html">Login</a>
@@ -32,7 +32,17 @@
                   <a class="nav-link" href="" id="logout">Logout</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="proizvodi.html">proizvodi</a>
+                  <a class="nav-link" href="proizvodi.html">Proizvodi</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="api.html">Api</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="korpa.html">Korpa</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="logout">Logout</a>
+                  <!-- <p id="logout">Logout</p> -->
                 </li>
               </ul>
             </div>
@@ -43,16 +53,20 @@
 
     <div class="row text-center">
       <div class="col-3" id="filteri">
-
+        <label for="sort_cena" class="form-label" id="sort_cena_labela">sortiraj po ceni(0)</label>
+        <input type="range" class="form-range" id="sort_cena" min="0" max="500" value="0">
+      
+        <select class="form-select" aria-label="Default select example" id="alcohol">
+          <option>odaberite alkohol</option>
+        </select>
       </div>
       <div class="col-9">
         <div class="container-fluid">
           <div class="row" id="prikaz_proizvodi">
-
+            
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </body>
