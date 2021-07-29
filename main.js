@@ -76,27 +76,34 @@ var set_proizvodi = (proizvodi)=>{
   localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
 }
 
-//za prvi ispis da mi ne bude prazan ekran, moze posle da se obrise
+//prvi ispis
 if(get_proizvodi()==null){
-  var svi_proizvodi = [
-    new proizvod(1,"Hoptopod IPA 1","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-    "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-    3,"6.5% vol","15.5 p",310,280),
-    new proizvod(2,"Hoptopod IPA 2","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-    "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-    3,"4.5% vol","15.5 p",310,180),
-    new proizvod(3,"Hoptopod IPA 3","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-    "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-    3,"12% vol","15.5 p",310,380),
-    new proizvod(4,"Hoptopod IPA 4","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-    "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-    3,"16.5% vol","15.5 p",310,250),
-    new proizvod(5,"Hoptopod IPA 5","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-    "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-    3,"40% vol","15.5 p",310,100)
+  var svi_proizvodi=[];
+  fetch("/data/products.json").then(response=>{return response.json()}).then((data)=>set_proizvodi(data))
+
+//za prvi ispis da mi ne bude prazan ekran, moze posle da se obrise  
+  // console.log(data);
+  // console.log(svi_proizvodi);
+//   var svi_proizvodi = [
+//     new proizvod(1,"Hoptopod IPA 1","images/hoptopod-ipa-500ml.png","veliki hoptopod",
+//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
+//     3,"6.5% vol","15.5 p",310,280),
+//     new proizvod(2,"Hoptopod IPA 2","images/hoptopod-ipa-500ml.png","veliki hoptopod",
+//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
+//     3,"4.5% vol","15.5 p",310,180),
+//     new proizvod(3,"Hoptopod IPA 3","images/hoptopod-ipa-500ml.png","veliki hoptopod",
+//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
+//     3,"12% vol","15.5 p",310,380),
+//     new proizvod(4,"Hoptopod IPA 4","images/hoptopod-ipa-500ml.png","veliki hoptopod",
+//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
+//     3,"16.5% vol","15.5 p",310,250),
+//     new proizvod(5,"Hoptopod IPA 5","images/hoptopod-ipa-500ml.png","veliki hoptopod",
+//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
+//     3,"40% vol","15.5 p",310,100)
     
-  ];
-  set_proizvodi(svi_proizvodi);
+//   ];
+   set_proizvodi(svi_proizvodi);
+
 }
 
 var prikaz_proizvodi_alcohol = (alc) =>{
@@ -107,7 +114,7 @@ var prikaz_proizvodi_alcohol = (alc) =>{
   for(var i=0;i<svi_proizvodi.length;i++){
     //ovo mi je samo da manje pisem
     var pr = svi_proizvodi[i];
-
+    
     if(pr.alcohol!=alc){
       continue;
     }
@@ -136,8 +143,8 @@ var prikaz_proizvodi_alcohol = (alc) =>{
 
     var p2 = document.createElement("p");
     var del = document.createElement("del");
-    del.innerHTML=pr.price_old;
-    p2.innerHTML=pr.price_new+" "; 
+    del.innerHTML=pr.price.old.value;
+    p2.innerHTML=pr.price.new+" "; 
     p2.appendChild(del);
     div.appendChild(p2);
 
