@@ -1,7 +1,13 @@
 var korpa = document.getElementById("korpa");
+var trenutni_korisnik = get_korisnik();
+if(trenutni_korisnik==null){
+    alert("Ne mozete videti korpu posto niste ulogovani")
+  }
 if(korpa!=null){
-  var trenutni_korisnik = get_korisnik();
+  
+  console.log(trenutni_korisnik);
   var proizvodi = trenutni_korisnik.korpa;
+  
 
   for(var i=0;i<proizvodi.length;i++){
     var li = document.createElement("li");

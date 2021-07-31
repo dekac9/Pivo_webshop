@@ -54,7 +54,8 @@ function korisnik(ime,prezime,korime,lozinka,email){
 function proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,price_old,price_new){
   this.id=id;
   this.title=title;
-  this.img_src=img_src;
+  this.img_src=img_src+".png";
+  console.log(this.img_src);
   this.img_alt=img_alt;
   this.description=description;
   this.stars=stars;
@@ -76,10 +77,34 @@ var set_proizvodi = (proizvodi)=>{
   localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
 }
 
+// let proba = fetch("./data/products.json").then(resp =>{resp.json()}).then(data=>console.log(data))
+
+
 //prvi ispis
-if(get_proizvodi()==null){
+
+// OVO SAM KASNIJE ISPRAVIO, ALI SAM I DALJE KORISTIO KONSTRUKTORSKU FJU
+
+var set_json = (data) => {
   var svi_proizvodi=[];
-  fetch("/data/products.json").then(response=>{return response.json()}).then((data)=>set_proizvodi(data))
+  //proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,price_old,price_new)
+  for(var i=0;i<data.length;i++){
+    var obj = new proizvod(
+      data[i].id,data[i].title,data[i].img.src,data[i].img.alt,data[i].description,
+      data[i].stars,data[i].alcohol,data[i].extract,data[i].price.old,data[i].price.new
+    );
+    svi_proizvodi.push(obj);
+    set_proizvodi(svi_proizvodi);
+  }
+}
+
+
+if(get_proizvodi()==null){
+  console.log("proizvodi");
+  fetch("/data/products.json")
+  .then(resp=> resp.json())
+  .then(
+    data=>set_json(data)
+  )
 
 //za prvi ispis da mi ne bude prazan ekran, moze posle da se obrise  
   // console.log(data);
