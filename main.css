@@ -1,3 +1,55 @@
 *{
   color: black;
 }
+
+#pocetna{
+  background: url(/images/Pivara_bgr.jpg);
+  background-size: cover;
+}
+
+#navigacija{
+  background-color: rgba(255,255,255,0.3);
+}
+
+#navigacija a{
+  border-bottom: 2px solid black;
+  color: white;
+  margin-left: 5px;
+  margin-right: 5px;
+  transition-duration: 1s;
+}
+
+#navigacija a:hover{
+  border-bottom: 2px solid white;
+  color: black;
+  transform: scale(1.2);
+}
+
+#login{
+  background: url(/images/istockphoto-1040303026-612x612.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+#register{
+  background: url(/images/perennial-brewing-brewery-stl-beer-pouring.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+form .form-label, div .row .col-12 h1, .white{
+  color: aliceblue;
+}
+
+
+#prikaz_proizvodi div p,#prikaz_proizvodi div h3{
+  color: aliceblue;
+}
+
+#prikaz_proizvodi div p del{
+  color: red;
+}
+
+.nav-item .active{
+  color: yellow !important;
+}
