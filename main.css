@@ -5,10 +5,22 @@
 #pocetna{
   background: url(/images/Pivara_bgr.jpg);
   background-size: cover;
+  
 }
 
 #navigacija{
   background-color: rgba(255,255,255,0.3);
+}
+
+#api{
+  background: url(/images/26-april_beer-bubbles.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#proizvodi{
+  background: url(/images/the-beer-smacks-of-expressive-fruity-and-funky-notes-but-drinks-like-a-crusher-.jpg);
+  background-attachment:fixed;
 }
 
 #navigacija a{
@@ -52,4 +64,12 @@ form .form-label, div .row .col-12 h1, .white{
 
 .nav-item .active{
   color: yellow !important;
+}
+
+.white{
+  color: aliceblue;
+}
+
+.black{
+  color: black;
 }

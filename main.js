@@ -40,7 +40,7 @@ function printStars(brojZvezdica) {
 
 
 
-//Konstruktor za korisnike
+//Konstruktor za korisnika
 function korisnik(ime,prezime,korime,lozinka,email){
   this.ime=ime;
   this.prezime=prezime;
@@ -460,6 +460,8 @@ if(api!=null){
         html_str += "<h2>City: " + weather.name + "</h2>";
         html_str += "<h3>Temperature: " + weather.main.temp.toFixed(0) + " Fahrenheit</h3>";
         $('#weather_loc').html(html_str);
+        document.body.style.background = "url(/images/"+$('#weather_input').val()+".png)";
+        document.body.style.backgroundSize = "cover";
     }, "json");
   });
     
