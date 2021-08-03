@@ -1,7 +1,8 @@
 var korpa = document.getElementById("korpa");
 var trenutni_korisnik = get_korisnik();
 if(trenutni_korisnik==null){
-    alert("Ne mozete videti korpu posto niste ulogovani")
+    alert("Ne mozete videti korpu posto niste ulogovani");
+    location.href="index.html"
   }
 
   var proizvodi = trenutni_korisnik.korpa;
