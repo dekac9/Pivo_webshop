@@ -55,7 +55,7 @@ function proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,pri
   this.id=id;
   this.title=title;
   this.img_src=img_src+".png";
-  console.log(this.img_src);
+  //console.log(this.img_src);
   this.img_alt=img_alt;
   this.description=description;
   this.stars=stars;
@@ -77,6 +77,8 @@ var set_proizvodi = (proizvodi)=>{
   localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
 }
 
+
+
 // let proba = fetch("./data/products.json").then(resp =>{resp.json()}).then(data=>console.log(data))
 
 
@@ -95,11 +97,12 @@ var set_json = (data) => {
     svi_proizvodi.push(obj);
     set_proizvodi(svi_proizvodi);
   }
+  
 }
 
 
 if(get_proizvodi()==null){
-  console.log("proizvodi");
+  //console.log("proizvodi");
   fetch("/data/products.json")
   .then(resp=> resp.json())
   .then(
@@ -128,10 +131,12 @@ if(get_proizvodi()==null){
     
 //   ];
    set_proizvodi(svi_proizvodi);
+   
 
 }
-
+ 
 var prikaz_proizvodi_alcohol = (alc) =>{
+ 
   var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
   prikaz_proizvodi.innerHTML="";
 
@@ -187,7 +192,7 @@ var prikaz_proizvodi_alcohol = (alc) =>{
       
       var kor = get_korisnik();
       if(kor==null){
-        alert("morate biti ulogovani da bi dodali u korpu");
+        alert("Morate biti ulogovani da bi dodali u korpu");
       }else{
         kor.korpa.push(pr);
         console.log(pr);
@@ -200,7 +205,7 @@ var prikaz_proizvodi_alcohol = (alc) =>{
             //sadrzaj njegove korpe, za dalje posete
             set_korisnici(svi_korisnici);
             set_korisnik(kor);
-            alert("dodato u korpu asd");
+            alert("Dodato u korpu");
             return;
           }
         }
@@ -210,10 +215,12 @@ var prikaz_proizvodi_alcohol = (alc) =>{
 
     prikaz_proizvodi.appendChild(div);
   }
+ 
 }
 
 //1
 var prikaz_proizvodi_fun = (cena=999999) =>{
+  
   var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
   prikaz_proizvodi.innerHTML="";
 
@@ -263,11 +270,13 @@ var prikaz_proizvodi_fun = (cena=999999) =>{
     button.addEventListener("click",(e)=>{
       var dugme = e.target;
       
+      
       var pr = JSON.parse(dugme.getAttribute("obj"));
       
       var kor = get_korisnik();
+      
       if(kor==null){
-        alert("morate biti ulogovani da bi dodali u korpu");
+        alert("Morate biti ulogovani da bi dodali u korpu");
       }else{
         kor.korpa.push(pr);
         console.log(pr);
@@ -280,16 +289,18 @@ var prikaz_proizvodi_fun = (cena=999999) =>{
             //sadrzaj njegove korpe, za dalje posete
             set_korisnici(svi_korisnici);
             set_korisnik(kor);
-            alert("dodato u korpu 2");
+            //alert("Dodato u korpu");
+            ispis_malog_broja();
             return;
           }
         }
       }
     });
 
-
+    
     prikaz_proizvodi.appendChild(div);
   }
+  
 }
 
 var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
@@ -320,6 +331,7 @@ if(sort_cena_labela!=null){
     sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
 
     prikaz_proizvodi_fun(cena);
+    
   });
 }
 
@@ -345,6 +357,28 @@ var set_korisnik = (korisnik)=>{
 }
 
 
+var ispis_malog_broja = ()=>{
+  let ispis=document.getElementById("lblCartCount");
+  let privremeno = get_korisnik();
+  if(privremeno!=null){
+  
+  let sam_broj = privremeno.korpa.length;
+  
+  ispis.innerText=sam_broj;
+  // ispis.innerHTML=sam_broj;
+  
+  }else{
+    ispis.innerHTML="0";
+  }
+  
+}
+ispis_malog_broja();
+//fja za ispis malog broja na korpi
+// var ispis_malog_broja = ()=>{
+//   alert("evo me")
+//   let privremeno = get_korisnik();
+//   return privremeno;
+// };
 //ako nema upisa, dodao sam na silu jednog, cisto da proveravam funkcionalnost. ovo moze posle da se obrise
 
 var korisnici_svi = get_korisnici();
@@ -377,7 +411,7 @@ if(registruj!=null){
     
     //provara da li je umnet podatak, treba za svaku stavku, mozda moze i pametnije
     if(ime===""){
-      odgovor.innerHTML="niste uneli ime";
+      odgovor.innerHTML="Niste uneli ime";
       return;
     }
 
@@ -388,7 +422,7 @@ if(registruj!=null){
     }
 
     
-    var potvrda = document.getElementById("potvrda").value;
+    // var potvrda = document.getElementById("potvrda").value;
 
     //validacija
     //korime jedinstveno
@@ -399,7 +433,7 @@ if(registruj!=null){
     var svi_korisnici = get_korisnici();
     svi_korisnici.push(k);
     set_korisnici(svi_korisnici);
-    alert("registracija uspesna");
+    alert("Registracija uspesna");
   });
 }
 
@@ -408,7 +442,7 @@ var uloguj = document.getElementById("uloguj");
 if(uloguj!=null){
   // u slucaju da je korisnik vec ulogovan, sakriva se login forma
   if(get_korisnik()!=null){
-    odgovor.innerHTML="vec ste ulogovani";
+    odgovor.innerHTML="Vec ste ulogovani";
     var forma_login = document.getElementById("forma_login");
     forma_login.style.display="none";
   }else{
@@ -421,7 +455,7 @@ if(uloguj!=null){
       for(var i=0;i<svi_korisnici.length;i++){
         var k = svi_korisnici[i];
         if(korime==k.korime && lozinka==k.lozinka){
-          alert("uspesno logovanje");
+          alert("Uspesno logovanje");
 
           //treba da znam ako je korisnik ulogovan
           //npr: korisnik dodje na stranicu za logovanje i uloguje se
@@ -433,7 +467,7 @@ if(uloguj!=null){
           return;
         }
       }
-      alert("pogresni podaci");
+      alert("Pogresni podaci");
     });
   }
 }
@@ -444,7 +478,7 @@ var logout = document.getElementById("logout");
 if(logout!=null){
   logout.addEventListener("click",()=>{
     localStorage.removeItem("korisnik");
-    document.location.reload();
+    location.href="index.html";
   });
 }
 
@@ -455,15 +489,24 @@ if(api!=null){
   dugme.addEventListener("click",(e)=>{
     e.preventDefault();
 
-    $.get('https://api.openweathermap.org/data/2.5/weather?q=' + $('#weather_input').val() + '&units=imperial&appid=506c04c8964f81d05743f45f600991e8', function(weather) {
+    $.get('https://api.openweathermap.org/data/2.5/weather?q=' + $('#weather_input').val() + '&units=metric&appid=506c04c8964f81d05743f45f600991e8', function(weather) {
+      
+      console.log(weather);
+      console.log(weather.coord.lon);
+      console.log(weather.coord.lat);
         var html_str = "";
         html_str += "<h2>City: " + weather.name + "</h2>";
-        html_str += "<h3>Temperature: " + weather.main.temp.toFixed(0) + " Fahrenheit</h3>";
+        html_str += "<h3 class='white'>Temperature: " + weather.main.temp.toFixed(0) + " Stepeni</h3>";
         $('#weather_loc').html(html_str);
         document.body.style.background = "url(/images/"+$('#weather_input').val()+".png)";
         document.body.style.backgroundSize = "cover";
     }, "json");
+    
+      
   });
+
+
+  
     
 
 

@@ -1,9 +1,11 @@
 var korpa = document.getElementById("korpa");
+var stranicaKorpe = document.getElementById("stranica_korpa");
 var trenutni_korisnik = get_korisnik();
-if(trenutni_korisnik==null){
+if(trenutni_korisnik==null && stranicaKorpe!=null){
     alert("Ne mozete videti korpu posto niste ulogovani");
-    location.href="index.html"
-  }
+    location.href="index.html";
+  
+  };
 
   var proizvodi = trenutni_korisnik.korpa;
 if(korpa!=null){
@@ -63,7 +65,7 @@ if(korpa!=null){
 
 //     korpa.appendChild(li);
 //   }
-
+//OVO JE BLOK KOJI SAM ZAMENIO
 for(var i=0;i<proizvodi.length;i++){
   console.log(proizvodi[i]);
   var li = document.createElement("li");
