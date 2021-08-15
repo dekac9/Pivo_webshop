@@ -69,39 +69,41 @@ function proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,pri
 
 //fja za dohvatanje niza proizvoda iz LSa
 var get_proizvodi = ()=>{
+  
   return JSON.parse(localStorage.getItem("proizvodi"));
 }
 
 //fja za upis niza proizvoda iz LSa
-var set_proizvodi = (proizvodi)=>{
+var set_proizvodi = (proizvodi)=>{  
+  
   localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
 }
 
 
 
-// let proba = fetch("./data/products.json").then(resp =>{resp.json()}).then(data=>console.log(data))
-
-
-//prvi ispis
-
 // OVO SAM KASNIJE ISPRAVIO, ALI SAM I DALJE KORISTIO KONSTRUKTORSKU FJU
 
 var set_json = (data) => {
+  
   var svi_proizvodi=[];
+  console.log(svi_proizvodi);
   //proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,price_old,price_new)
   for(var i=0;i<data.length;i++){
     var obj = new proizvod(
       data[i].id,data[i].title,data[i].img.src,data[i].img.alt,data[i].description,
       data[i].stars,data[i].alcohol,data[i].extract,data[i].price.old,data[i].price.new
     );
+    //alert("usao")
+    //console.log(obj);
     svi_proizvodi.push(obj);
-    set_proizvodi(svi_proizvodi);
+    
   }
   
+  set_proizvodi(svi_proizvodi);
 }
 
 
-if(get_proizvodi()==null){
+
   //console.log("proizvodi");
   fetch("/data/products.json")
   .then(resp=> resp.json())
@@ -109,32 +111,10 @@ if(get_proizvodi()==null){
     data=>set_json(data)
   )
 
-//za prvi ispis da mi ne bude prazan ekran, moze posle da se obrise  
-  // console.log(data);
-  // console.log(svi_proizvodi);
-//   var svi_proizvodi = [
-//     new proizvod(1,"Hoptopod IPA 1","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-//     3,"6.5% vol","15.5 p",310,280),
-//     new proizvod(2,"Hoptopod IPA 2","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-//     3,"4.5% vol","15.5 p",310,180),
-//     new proizvod(3,"Hoptopod IPA 3","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-//     3,"12% vol","15.5 p",310,380),
-//     new proizvod(4,"Hoptopod IPA 4","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-//     3,"16.5% vol","15.5 p",310,250),
-//     new proizvod(5,"Hoptopod IPA 5","images/hoptopod-ipa-500ml.png","veliki hoptopod",
-//     "Pivo koje će rasplamsati sva vaša čula! Tehnikom suvog hmeljenja stvorili smo pitku i snažnu kombinaciju tropskih i cvetnih aroma.",
-//     3,"40% vol","15.5 p",310,100)
-    
-//   ];
-   set_proizvodi(svi_proizvodi);
+  set_proizvodi(svi_proizvodi);
    
 
-}
- 
+
 var prikaz_proizvodi_alcohol = (alc) =>{
  
   var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
@@ -173,8 +153,8 @@ var prikaz_proizvodi_alcohol = (alc) =>{
 
     var p2 = document.createElement("p");
     var del = document.createElement("del");
-    del.innerHTML=pr.price.old.value;
-    p2.innerHTML=pr.price.new+" "; 
+    del.innerHTML=pr.price_old.value;
+    p2.innerHTML=pr.price_new+" "; 
     p2.appendChild(del);
     div.appendChild(p2);
 
@@ -219,16 +199,16 @@ var prikaz_proizvodi_alcohol = (alc) =>{
 }
 
 //1
-var prikaz_proizvodi_fun = (cena=999999) =>{
-  
+var prikaz_proizvodi_fun = (cena = 999999) => {
+  //alert("usao")
   var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
-  prikaz_proizvodi.innerHTML="";
+  prikaz_proizvodi.innerHTML = "";
 
   var svi_proizvodi = get_proizvodi();
-  for(var i=0;i<svi_proizvodi.length;i++){
+  for (var i = 0; i < svi_proizvodi.length; i++) {
     var pr = svi_proizvodi[i];
 
-    if(pr.price_new>cena){
+    if (pr.price_new > cena) {
       continue;
     }
 
@@ -239,69 +219,87 @@ var prikaz_proizvodi_fun = (cena=999999) =>{
     var img = document.createElement("img");
     img.src = pr.img_src;
     img.alt = pr.img_alt;
-    img.style.width="100%";
+    img.style.width = "100%";
     div.appendChild(img);
 
     var h3 = document.createElement("h3");
-    h3.innerHTML=pr.title;
+    h3.innerHTML = pr.title;
     div.appendChild(h3);
 
     var p = document.createElement("p");
-    p.innerHTML=pr.description;
+    p.innerHTML = pr.description;
     div.appendChild(p);
 
     var p22 = document.createElement("p");
-    p22.innerHTML="alcohol: "+pr.alcohol;
+    p22.innerHTML = "alcohol: " + pr.alcohol;
     div.appendChild(p22);
 
     var p2 = document.createElement("p");
     var del = document.createElement("del");
-    del.innerHTML=pr.price_old;
-    p2.innerHTML=pr.price_new+" "; 
+    del.innerHTML = pr.price_old;
+    p2.innerHTML = pr.price_new + " ";
     p2.appendChild(del);
     div.appendChild(p2);
 
     var button = document.createElement("button");
     button.classList.add("btn");
     button.classList.add("btn-success");
-    button.innerHTML="dodaj u korpu";
+    button.innerHTML = "dodaj u korpu";
     div.appendChild(button);
-    button.setAttribute("obj",JSON.stringify(pr));
-    button.addEventListener("click",(e)=>{
+    button.setAttribute("obj", JSON.stringify(pr));
+    button.addEventListener("click", (e) => {
       var dugme = e.target;
-      
-      
-      var pr = JSON.parse(dugme.getAttribute("obj"));
-      
-      var kor = get_korisnik();
-      
-      if(kor==null){
-        alert("Morate biti ulogovani da bi dodali u korpu");
-      }else{
-        kor.korpa.push(pr);
-        console.log(pr);
 
-        var svi_korisnici = get_korisnici();
-        for(var i=0;i<svi_korisnici.length;i++){
-          if(svi_korisnici[i].korime==kor.korime){
-            svi_korisnici[i]=kor;
-            //mora da se ubaci i u sve korisnike i u trenutnog korisnika
-            //sadrzaj njegove korpe, za dalje posete
-            set_korisnici(svi_korisnici);
-            set_korisnik(kor);
-            //alert("Dodato u korpu");
-            ispis_malog_broja();
-            return;
+      var pr = JSON.parse(dugme.getAttribute("obj"));
+      //console.log(pr.id); radi
+      var kor = get_korisnik();
+      //console.log(kor.korpa);
+      //console.log(pr);
+      //console.log(kor.korpa.id);
+      if (kor == null) {
+        alert("Morate biti ulogovani da bi dodali u korpu");
+      } else {
+        if (kor.korpa.length == 0) {
+          
+          kor.korpa.push(pr);
+        } else {
+          for (let i = 0; i < kor.korpa.length; i++) {
+            if (kor.korpa[i].id == pr.id) {
+              alert("Dodat jos jedan proizvod koji ste vec imali u korpi");
+              kor.korpa[i].broj++;
+              break;
+            } else if (i == kor.korpa.length - 1) {
+              kor.korpa.push(pr);
+              break;
+            } else {
+              continue;
+            }
           }
+          set_korisnik(kor);
+        }
+
+        
+      }
+      var svi_korisnici = get_korisnici();
+      for (var i = 0; i < svi_korisnici.length; i++) {
+        if (svi_korisnici[i].korime == kor.korime) {
+          svi_korisnici[i] = kor;
+          //mora da se ubaci i u sve korisnike i u trenutnog korisnika
+          //sadrzaj njegove korpe, za dalje posete
+          set_korisnici(svi_korisnici);
+          set_korisnik(kor);
+          //alert("Dodato u korpu");
+          ispis_malog_broja();
+          return;
         }
       }
     });
 
-    
     prikaz_proizvodi.appendChild(div);
+
   }
   
-}
+};
 
 var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
 if(prikaz_proizvodi!=null){
@@ -316,9 +314,12 @@ if(prikaz_proizvodi!=null){
     select.add(option);
   }
 
-  select.addEventListener("change",(e)=>{
+ select.addEventListener("change",(e)=>{
     var a = e.target.value
     prikaz_proizvodi_alcohol(a);
+    console.log(a);
+    
+
   });
 }
 
@@ -379,8 +380,9 @@ ispis_malog_broja();
 //   let privremeno = get_korisnik();
 //   return privremeno;
 // };
-//ako nema upisa, dodao sam na silu jednog, cisto da proveravam funkcionalnost. ovo moze posle da se obrise
 
+
+//ako nema upisa, dodao sam na silu jednog, cisto da proveravam funkcionalnost. ovo moze posle da se obrise
 var korisnici_svi = get_korisnici();
 if(korisnici_svi==null){
   korisnici_svi = [
@@ -495,11 +497,10 @@ if(api!=null){
       console.log(weather.coord.lon);
       console.log(weather.coord.lat);
         var html_str = "";
-        html_str += "<h2>City: " + weather.name + "</h2>";
-        html_str += "<h3 class='white'>Temperature: " + weather.main.temp.toFixed(0) + " Stepeni</h3>";
+        html_str += "<h2 class='white'>City: " + weather.name + "</h2>";
+        html_str += "<h3 class='white'>Temperatura: " + weather.main.temp.toFixed(0) + " Stepeni</h3>";
         $('#weather_loc').html(html_str);
-        document.body.style.background = "url(/images/"+$('#weather_input').val()+".png)";
-        document.body.style.backgroundSize = "cover";
+        
     }, "json");
     
       
