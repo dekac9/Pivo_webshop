@@ -15,28 +15,26 @@ var set_korisnik = (korisnik) => {
 };
 
 
-ispisKolica();
-ispis_malog_broja();
-
-document.getElementById("checkout").addEventListener("click",()=>{
-  localStorage.removeItem("korisnik");
-  location.href="index.html"});
-
-
-function ispisKolica(){
-//var korpa = document.getElementById("korpa");
 var stranicaKorpe = document.getElementById("stranica_korpa");
-var trenutni_korisnik = get_korisnik();
-if (trenutni_korisnik == null && stranicaKorpe != null) {
-  alert("Ne mozete videti korpu posto niste ulogovani");
-  location.href = "index.html";
-} else {
-  //console.log(trenutni_korisnik.korpa);
-  var proizvodi = trenutni_korisnik.korpa;
-  if (korpa != null) {
-    let html = "";
-    for (let i = 0; i < proizvodi.length; i++) {
-      html += `<div class="product">
+if(stranicaKorpe!=null){
+  ispisKolica();
+}
+
+
+
+function ispisKolica() {
+  //var korpa = document.getElementById("korpa");
+  //var stranicaKorpe = document.getElementById("stranica_korpa");
+  var trenutni_korisnik = get_korisnik();
+  if (trenutni_korisnik == null && stranicaKorpe != null) {
+    alert("Ne mozete videti korpu posto niste ulogovani");
+    location.href = "index.html";
+  } else if (trenutni_korisnik.korpa != null && stranicaKorpe!=null) {
+    var proizvodi = trenutni_korisnik.korpa;
+    if (korpa != null) {
+      let html = "";
+      for (let i = 0; i < proizvodi.length; i++) {
+        html += `<div class="product">
 <div class="row" id="${proizvodi[i].id}">
   <div class="col-md-3">
     <img class="img-fluid mx-auto d-block image" src="${proizvodi[i].img_src}">
@@ -69,28 +67,33 @@ if (trenutni_korisnik == null && stranicaKorpe != null) {
   </div>
 </div>
 </div>`;
+      }
+      korpa.innerHTML = html;
 
-    }
-    korpa.innerHTML = html;
-    
+      //Liseneri za delete btn
+      let removeBtn = document.getElementsByClassName("btn-remove");
+      for (let btn of removeBtn) {
+        btn.addEventListener("click", deleteItem);
+      }
 
-    //Liseneri za delete btn
-    let removeBtn = document.getElementsByClassName("btn-remove");
-    for (let btn of removeBtn) {
-      btn.addEventListener("click", deleteItem);
-    }
+      //Liseneri za quantity btn
+      let quantity = document.getElementsByClassName("cart-quantity-input");
+      for (let btn of quantity) {
+        btn.addEventListener("change", changeQuantity);
+      }
 
-    //Liseneri za quantity btn
-    let quantity = document.getElementsByClassName("cart-quantity-input");
-    for (let btn of quantity) {
-      btn.addEventListener("change", changeQuantity);
+      document.getElementById("checkout").addEventListener("click",()=>{
+        localStorage.removeItem("korisnik");
+        location.href="index.html"});
+      
     }
+    updatePrice();
+    ispis_malog_broja();
   } else {
-    alert("nema niza");
+    true;
+    //console.log(trenutni_korisnik.korpa);
   }
-}
-updatePrice();
-
+  
 }
 
 

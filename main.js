@@ -1,38 +1,4 @@
-/*function istampajProizvode(result) {
-  let html = "";
 
-  for (let product of result) {
-    html += `<div class="col-4 text-center">
-       <a href="product.html?id=${product.id}">
-       <img src="${product.img.src}" alt="${
-      product.img.alt
-    }" class="img-fluid"></a>
-       <h3>${product.title}</h3>
-       <p>${product.description}</p>
-       <p> ${printStars(product.stars)}</p>
-       <p>${printDelivery(product.delivery)}</p>
-       <p>${product.price.new} <del>${product.price.old} </del></p>
-       </div>
-  `;
-  }
-
-  document.getElementById("products").innerHTML = html;
-
-}
-
-function printStars(brojZvezdica) {
-  let html = "";
-  for (let i = 1; i <= 5; i++) {
-    if (i <= brojZvezdica) {
-      html += `<i class="fas fa-star"></i>`;
-    } else {
-      html += `<i class="far fa-star"></i>`;
-    }
-  }
-  return html;
-}
-
-*/
 
 // za rad sa local storageom:
 //korisnici - svi korisnici
@@ -86,7 +52,7 @@ var set_proizvodi = (proizvodi)=>{
 var set_json = (data) => {
   
   var svi_proizvodi=[];
-  console.log(svi_proizvodi);
+  //console.log(svi_proizvodi);
   //proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,price_old,price_new)
   for(var i=0;i<data.length;i++){
     var obj = new proizvod(
@@ -105,15 +71,23 @@ var set_json = (data) => {
 
 
   //console.log("proizvodi");
-  fetch("/data/products.json")
-  .then(resp=> resp.json())
-  .then(
-    data=>set_json(data)
-  )
+  //ODAVDE ZAKOMENTARISAO ZBOG ASYNC AWAITa
+  // fetch("/data/products.json")
+  // .then(resp=> resp.json())
+  // .then(
+  //   data=>set_json(data)
+  // )
 
-  set_proizvodi(svi_proizvodi);
+  // set_proizvodi(svi_proizvodi);
    
+async function asinhronost(){
+  var response = await fetch("/data/products.json");
+  var data = await (response.json());
+  console.log(data);
+  set_json(data)
 
+}
+asinhronost();
 
 var prikaz_proizvodi_alcohol = (alc) =>{
  
