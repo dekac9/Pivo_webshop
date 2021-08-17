@@ -35,7 +35,6 @@ function proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,pri
 
 //fja za dohvatanje niza proizvoda iz LSa
 var get_proizvodi = ()=>{
-  
   return JSON.parse(localStorage.getItem("proizvodi"));
 }
 
@@ -52,8 +51,7 @@ var set_proizvodi = (proizvodi)=>{
 var set_json = (data) => {
   
   var svi_proizvodi=[];
-  //console.log(svi_proizvodi);
-  //proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,price_old,price_new)
+
   for(var i=0;i<data.length;i++){
     var obj = new proizvod(
       data[i].id,data[i].title,data[i].img.src,data[i].img.alt,data[i].description,
@@ -64,12 +62,17 @@ var set_json = (data) => {
     svi_proizvodi.push(obj);
     
   }
-  
+
   set_proizvodi(svi_proizvodi);
+  
+if(stranica_proizvoda!=null){
+  prikaz_proizvoda_funkcija();
+}
+  
 }
 
 
-
+//PRETHODNI FETCH NAMERNO OSTAVIO
   //console.log("proizvodi");
   //ODAVDE ZAKOMENTARISAO ZBOG ASYNC AWAITa
   // fetch("/data/products.json")
@@ -83,108 +86,111 @@ var set_json = (data) => {
 async function asinhronost(){
   var response = await fetch("/data/products.json");
   var data = await (response.json());
-  console.log(data);
-  set_json(data)
-
+  //console.log(data);
+  set_json(data);
+  
 }
 asinhronost();
 
-var prikaz_proizvodi_alcohol = (alc) =>{
- 
-  var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
-  prikaz_proizvodi.innerHTML="";
-
-  var svi_proizvodi = get_proizvodi();
-  for(var i=0;i<svi_proizvodi.length;i++){
-    //ovo mi je samo da manje pisem
-    var pr = svi_proizvodi[i];
-    
-    if(pr.alcohol!=alc){
-      continue;
-    }
-
-    var div = document.createElement("div");
-    div.classList.add("col-4");
-    div.classList.add("text-center");
-
-    var img = document.createElement("img");
-    img.src = pr.img_src;
-    img.alt = pr.img_alt;
-    img.style.width="100%";
-    div.appendChild(img);
-
-    var h3 = document.createElement("h3");
-    h3.innerHTML=pr.title;
-    div.appendChild(h3);
-
-    var p = document.createElement("p");
-    p.innerHTML=pr.description;
-    div.appendChild(p);
-
-    var p22 = document.createElement("p");
-    p22.innerHTML="alcohol: "+pr.alcohol;
-    div.appendChild(p22);
-
-    var p2 = document.createElement("p");
-    var del = document.createElement("del");
-    del.innerHTML=pr.price_old.value;
-    p2.innerHTML=pr.price_new+" "; 
-    p2.appendChild(del);
-    div.appendChild(p2);
-
-    var button = document.createElement("button");
-    button.classList.add("btn");
-    button.classList.add("btn-success");
-    button.innerHTML="dodaj u korpu";
-    div.appendChild(button);
-    button.setAttribute("obj",JSON.stringify(pr));
-    button.addEventListener("click",(e)=>{
-      console.log("dugme kliknuto");
-      var dugme = e.target;
-      
-      var pr = JSON.parse(dugme.getAttribute("obj"));
-      
-      var kor = get_korisnik();
-      if(kor==null){
-        alert("Morate biti ulogovani da bi dodali u korpu");
-      }else{
-        kor.korpa.push(pr);
-        console.log(pr);
-
-        var svi_korisnici = get_korisnici();
-        for(var i=0;i<svi_korisnici.length;i++){
-          if(svi_korisnici[i].korime==kor.korime){
-            svi_korisnici[i]=kor;
-            //mora da se ubaci i u sve korisnike i u trenutnog korisnika
-            //sadrzaj njegove korpe, za dalje posete
-            set_korisnici(svi_korisnici);
-            set_korisnik(kor);
-            alert("Dodato u korpu");
-            return;
-          }
-        }
-      }
-    });
-
-
-    prikaz_proizvodi.appendChild(div);
-  }
- 
-}
 
 //1
-var prikaz_proizvodi_fun = (cena = 999999) => {
-  //alert("usao")
+
+
+var sort_cena= document.getElementById("sort_cena");
+if(sort_cena!=null){
+  sort_cena.addEventListener("change", prikaz_proizvoda_funkcija);
+}
+
+
+
+var select_alcohol = document.getElementById("alcohol");
+if(select_alcohol!=null){
+ select_alcohol.addEventListener("change",prikaz_proizvoda_funkcija); 
+}
+
+
+  
+  function filtrirajAlkohol(data){
+    //alert("alkohol")
+    let alkohol_poredjenje=document.getElementById("alcohol").value;
+     //console.log(alkohol_poredjenje);
+     if(alkohol_poredjenje=="Odaberite kolicinu alkohola"){
+       return data
+     }
+      let niz_za_alkohol=[];
+      data.forEach(element => {
+        if(element.alcohol==alkohol_poredjenje){
+          niz_za_alkohol.push(element);
+        }
+      })
+      console.log(niz_za_alkohol);
+      return niz_za_alkohol;
+      
+  };
+
+  
+  
+function filtrirajCena(data){
+  let cena_ispis=document.getElementById("sort_cena_labela");
+  let cena_poredjenje=document.getElementById("sort_cena").value;
+  cena_ispis.innerHTML=`Prikazani proiznodi jeftiniji od: ${cena_poredjenje} din`
+   //console.log(cena_poredjenje);
+    // sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
+    if(cena_poredjenje==0){
+      return data
+    }
+    let niz_za_cenu=[];
+    data.forEach(element => {
+      if(element.price_new<=cena_poredjenje){
+        niz_za_cenu.push(element);
+      }
+    })
+    console.log(niz_za_cenu);
+    return niz_za_cenu;
+    
+};
+    
+  // });
+  
+
+const stranica_proizvoda=document.getElementById("proizvodi");
+if(stranica_proizvoda!=null){
+
+
+
+var prikaz_proizvoda_funkcija = () => {
+  let data = get_proizvodi();
+
+
+  var select = document.getElementById("alcohol");
+  //console.log(select.length);
+  if(select.length==1){
+
+  var niz_za_alkohol=[];
+  for(var i=0;i<data.length;i++){
+    var option = document.createElement("option");
+    option.text = data[i].alcohol;
+    option.value = data[i].alcohol;
+    if(niz_za_alkohol.indexOf(option.text)<0){
+    niz_za_alkohol.push(option.text);
+    select.add(option);
+    }  
+  }
+}
+  data=filtrirajCena(data);
+  data=filtrirajAlkohol(data);
+  
   var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
   prikaz_proizvodi.innerHTML = "";
 
-  var svi_proizvodi = get_proizvodi();
-  for (var i = 0; i < svi_proizvodi.length; i++) {
-    var pr = svi_proizvodi[i];
+  //var data = get_proizvodi();
+  console.log(data);
+  for (var i = 0; i < data.length; i++) {
+    var pr = data[i];
 
-    if (pr.price_new > cena) {
-      continue;
-    }
+    // if (pr.price_new > cena) {
+    //   continue;
+    // }
 
     var div = document.createElement("div");
     div.classList.add("col-4");
@@ -272,43 +278,55 @@ var prikaz_proizvodi_fun = (cena = 999999) => {
     prikaz_proizvodi.appendChild(div);
 
   }
+  var sort_cena= document.getElementById("sort_cena");
+  sort_cena.addEventListener("change", prikaz_proizvoda_funkcija);
+  // if(sort_cena_labela!=null){
   
+  var select_alcohol = document.getElementById("alcohol");
+  select_alcohol.addEventListener("change",prikaz_proizvoda_funkcija);
+  //prikaz_proizvoda_funkcija();
 };
 
-var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
-if(prikaz_proizvodi!=null){
-  prikaz_proizvodi_fun();
-  var select = document.getElementById("alcohol");
+};
+// var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
+// if(prikaz_proizvodi!=null){
+//   //prikaz_proizvoda_funkcija();
+//   ////var select = document.getElementById("alcohol");
 
-  var svi_proizvodi = get_proizvodi();
-  for(var i=0;i<svi_proizvodi.length;i++){
-    var option = document.createElement("option");
-    option.text = svi_proizvodi[i].alcohol;
-    option.value = svi_proizvodi[i].alcohol;
-    select.add(option);
-  }
-
- select.addEventListener("change",(e)=>{
-    var a = e.target.value
-    prikaz_proizvodi_alcohol(a);
-    console.log(a);
+//   var svi_proizvodi = get_proizvodi();
+//   var niz_za_alkohol=[];
+//   for(var i=0;i<svi_proizvodi.length;i++){
+//     var option = document.createElement("option");
+//     option.text = svi_proizvodi[i].alcohol;
+//     option.value = svi_proizvodi[i].alcohol;
+//     if(niz_za_alkohol.indexOf(option.text)<0){
+//     niz_za_alkohol.push(option.text);
+//     select.add(option);
+//     }  
+//   }
+ 
+//  select.addEventListener("change",(e)=>{
+//     var a = e.target.value
+//     prikaz_proizvodi_alcohol(a);
+//     console.log(a);
     
 
-  });
-}
+//   });
 
-var sort_cena_labela = document.getElementById("sort_cena_labela");
-if(sort_cena_labela!=null){
-  var sort_cena = document.getElementById("sort_cena");
 
-  sort_cena.addEventListener("change",(e)=>{
-    var cena = e.target.value;
-    sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
+//ODAVDE SAM GA UVUKAO U FJU ZA ISPIS
+// var sort_cena_labela = document.getElementById("sort_cena_labela");
+// if(sort_cena_labela!=null){
+//   var sort_cena = document.getElementById("sort_cena");
 
-    prikaz_proizvodi_fun(cena);
+//   sort_cena.addEventListener("change",(e)=>{
+//     var cena = e.target.value;
+//     sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
+
+//     prikaz_proizvoda_funkcija(cena);
     
-  });
-}
+//   });
+// }
 
 // get_korisnici: citanje svih korisnika iz Local storage-a
 // get_korisnici: citanje svih korisnika iz Local storage-a
