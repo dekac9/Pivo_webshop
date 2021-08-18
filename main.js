@@ -84,11 +84,14 @@ if(stranica_proizvoda!=null){
   // set_proizvodi(svi_proizvodi);
    
 async function asinhronost(){
+  try{
   var response = await fetch("/data/products.json");
   var data = await (response.json());
   //console.log(data);
   set_json(data);
-  
+  }catch (error) {
+    console.error(error);
+  }
 }
 asinhronost();
 
@@ -133,7 +136,12 @@ if(select_alcohol!=null){
 function filtrirajCena(data){
   let cena_ispis=document.getElementById("sort_cena_labela");
   let cena_poredjenje=document.getElementById("sort_cena").value;
-  cena_ispis.innerHTML=`Prikazani proiznodi jeftiniji od: ${cena_poredjenje} din`
+  if(cena_poredjenje==0){
+    cena_ispis.innerHTML=`Prikazani su svi proizvodi`
+  }else{
+    cena_ispis.innerHTML=`Prikazani proiznodi jeftiniji od: ${cena_poredjenje} din`
+  }
+  
    //console.log(cena_poredjenje);
     // sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
     if(cena_poredjenje==0){
@@ -184,7 +192,7 @@ var prikaz_proizvoda_funkcija = () => {
   prikaz_proizvodi.innerHTML = "";
 
   //var data = get_proizvodi();
-  console.log(data);
+  //console.log(data);
   for (var i = 0; i < data.length; i++) {
     var pr = data[i];
 
@@ -262,7 +270,7 @@ var prikaz_proizvoda_funkcija = () => {
       }
       var svi_korisnici = get_korisnici();
       for (var i = 0; i < svi_korisnici.length; i++) {
-        if (svi_korisnici[i].korime == kor.korime) {
+        if (kor!=null && svi_korisnici[i].korime == kor.korime) {
           svi_korisnici[i] = kor;
           //mora da se ubaci i u sve korisnike i u trenutnog korisnika
           //sadrzaj njegove korpe, za dalje posete
@@ -288,50 +296,6 @@ var prikaz_proizvoda_funkcija = () => {
 };
 
 };
-// var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
-// if(prikaz_proizvodi!=null){
-//   //prikaz_proizvoda_funkcija();
-//   ////var select = document.getElementById("alcohol");
-
-//   var svi_proizvodi = get_proizvodi();
-//   var niz_za_alkohol=[];
-//   for(var i=0;i<svi_proizvodi.length;i++){
-//     var option = document.createElement("option");
-//     option.text = svi_proizvodi[i].alcohol;
-//     option.value = svi_proizvodi[i].alcohol;
-//     if(niz_za_alkohol.indexOf(option.text)<0){
-//     niz_za_alkohol.push(option.text);
-//     select.add(option);
-//     }  
-//   }
- 
-//  select.addEventListener("change",(e)=>{
-//     var a = e.target.value
-//     prikaz_proizvodi_alcohol(a);
-//     console.log(a);
-    
-
-//   });
-
-
-//ODAVDE SAM GA UVUKAO U FJU ZA ISPIS
-// var sort_cena_labela = document.getElementById("sort_cena_labela");
-// if(sort_cena_labela!=null){
-//   var sort_cena = document.getElementById("sort_cena");
-
-//   sort_cena.addEventListener("change",(e)=>{
-//     var cena = e.target.value;
-//     sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
-
-//     prikaz_proizvoda_funkcija(cena);
-    
-//   });
-// }
-
-// get_korisnici: citanje svih korisnika iz Local storage-a
-// get_korisnici: citanje svih korisnika iz Local storage-a
-// get_korisnik: citanje trenutnog korisnika iz Local storage-a
-// get_korisnik: citanje trenutnog korisnika iz Local storage-a
 
 var get_korisnici = ()=>{
   return JSON.parse(localStorage.getItem("korisnici"));
@@ -366,12 +330,6 @@ var ispis_malog_broja = ()=>{
   
 }
 ispis_malog_broja();
-//fja za ispis malog broja na korpi
-// var ispis_malog_broja = ()=>{
-//   alert("evo me")
-//   let privremeno = get_korisnik();
-//   return privremeno;
-// };
 
 
 //ako nema upisa, dodao sam na silu jednog, cisto da proveravam funkcionalnost. ovo moze posle da se obrise
@@ -428,6 +386,7 @@ if(registruj!=null){
     svi_korisnici.push(k);
     set_korisnici(svi_korisnici);
     alert("Registracija uspesna");
+    location.href="index.html"
   });
 }
 
