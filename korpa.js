@@ -1,19 +1,13 @@
-var get_korisnici = () => {
-  return JSON.parse(localStorage.getItem("korisnici"));
-};
 
-var set_korisnici = (korisnici) => {
-  localStorage.setItem("korisnici", JSON.stringify(korisnici));
-};
+import provera_za_navbar from './ispis_navbara.js';
+import {get_korisnici} from './funkcije.js';
+import {set_korisnici} from './funkcije.js';
+import {get_korisnik} from './funkcije.js';
+import {set_korisnik} from './funkcije.js';
+import {ispis_malog_broja} from './funkcije.js';
 
-var get_korisnik = () => {
-  return JSON.parse(localStorage.getItem("korisnik"));
-};
 
-var set_korisnik = (korisnik) => {
-  localStorage.setItem("korisnik", JSON.stringify(korisnik));
-};
-
+provera_za_navbar();
 
 var stranicaKorpe = document.getElementById("stranica_korpa");
 if(stranicaKorpe!=null){
@@ -48,7 +42,7 @@ function ispisKolica() {
             <div class="product-info">
               <div>Alcohol: <span class="value">${proizvodi[i].alcohol}</span></div>
               <div>Extract: <span class="value">${proizvodi[i].extract}</span></div>
-              <div>Memory: <span class="value">32GB</span></div>
+              <div>Ocena potrosaca: <span class="value">${proizvodi[i].stars}</span></div>
             </div>
           </div>
         </div>
@@ -203,20 +197,6 @@ function changeQuantity(item) {
   updatePrice();
 }
 
-var ispis_malog_broja = ()=>{
-  let ispis=document.getElementById("lblCartCount");
-  let privremeno = get_korisnik();
-  if(privremeno!=null){
-  
-  let sam_broj = privremeno.korpa.length;
-  
-  ispis.innerText=sam_broj;
-  // ispis.innerHTML=sam_broj;
-  
-  }else{
-    ispis.innerHTML="0";
-  }
-  
-}
+
 
 

@@ -1,23 +1,41 @@
-export default function korisnik(ime,prezime,korime,lozinka,email){
-  this.ime=ime;
-  this.prezime=prezime;
-  this.korime=korime;
-  this.lozinka=lozinka;
-  this.email=email;
-  this.korpa=[];
+//fja za dohvatanje niza proizvoda iz LSa
+export default function get_proizvodi(){
+  return JSON.parse(localStorage.getItem("proizvodi"));
 };
 
-export function proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,price_old,price_new){
-  this.id=id;
-  this.title=title;
-  this.img_src=img_src+".png";
-  //console.log(this.img_src);
-  this.img_alt=img_alt;
-  this.description=description;
-  this.stars=stars;
-  this.alcohol=alcohol;
-  this.extract=extract;
-  this.price_old=price_old;
-  this.price_new=price_new;
-  this.broj=1;
+//fja za upis niza proizvoda iz LSa
+export function set_proizvodi(proizvodi){  
+  localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
+
 }
+export function get_korisnici(){
+    return JSON.parse(localStorage.getItem("korisnici"));
+};
+  
+export function set_korisnici(korisnici){
+    localStorage.setItem("korisnici", JSON.stringify(korisnici));
+};
+
+
+export function get_korisnik(){
+   return JSON.parse(localStorage.getItem("korisnik"));
+};
+
+export function set_korisnik(korisnik){
+localStorage.setItem("korisnik", JSON.stringify(korisnik));
+};
+
+export function ispis_malog_broja(){
+  let ispis=document.getElementById("lblCartCount");
+  let privremeno = get_korisnik();
+  if(privremeno!=null){
+  
+  let sam_broj = privremeno.korpa.length;
+  
+  ispis.innerText=sam_broj;
+  // ispis.innerHTML=sam_broj;
+  
+  }
+  
+}
+

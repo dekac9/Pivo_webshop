@@ -1,9 +1,99 @@
+import provera_za_navbar from "./ispis_navbara.js";
+import get_proizvodi from "./funkcije.js";
+import {set_proizvodi} from "./funkcije.js";
+import {get_korisnik} from './funkcije.js';
+import {set_korisnik} from './funkcije.js';
+import {get_korisnici} from './funkcije.js';
+import {set_korisnici} from './funkcije.js';
+import {ispis_malog_broja} from './funkcije.js';
+
+
 
 
 // za rad sa local storageom:
 //korisnici - svi korisnici
 //korisnik  - trenutno ulogovan korisnik
+provera_za_navbar();
+// function provera_za_navbar(){
+//   let html;
+//   let ispis = document.getElementById("navigacija")
+//   let temp = get_korisnik();
+//   if (temp!=null){
+//     html=`<div class="col-12">
+//     <nav class="navbar navbar-expand-lg">
+//       <div class="container-fluid">
+//         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+//           <span class="navbar-toggler-icon "></span>
+//         </button>
+//         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+//           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+//             <li class="nav-item">
+//               <a class="nav-link active text-center" aria-current="page" href="index.html">Pocetna</a>
+//             </li>
+            
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="register.html">Register</a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="proizvodi.html">Proizvodi</a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="api.html">Api</a>
+//             </li>
+//             <li class="nav-item">
 
+//               <a class="nav-link text-center" href="korpa.html"><i class="fa" style="font-size:24px">&#xf07a;</i>
+//                 <span class='badge badge-warning' id='lblCartCount'> 0 </span></a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="" id="logout">Logout</a>
+//             </li>
+            
+//           </ul>
+//         </div>
+//       </div>
+//     </nav>
+//   </div>`
+//   ispis.innerHTML = html;
+
+//   asinhronost();
+//   };
+//   if(temp==null){
+//     html=`<div class="col-12">
+//     <nav class="navbar navbar-expand-lg">
+//       <div class="container-fluid">
+//         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+//           <span class="navbar-toggler-icon "></span>
+//         </button>
+//         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+//           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+//             <li class="nav-item">
+//               <a class="nav-link active text-center" aria-current="page" href="index.html">Pocetna</a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="login.html">Login</a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="register.html">Register</a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="proizvodi.html">Proizvodi</a>
+//             </li>
+//             <li class="nav-item">
+//               <a class="nav-link text-center" href="api.html">Api</a>
+//             </li>
+                        
+//           </ul>
+//         </div>
+//       </div>
+//     </nav>
+//   </div>`
+//   ispis.innerHTML = html;
+
+//   asinhronost();
+//   }
+
+// }
 
 
 //Konstruktor za korisnika
@@ -33,20 +123,7 @@ function proizvod(id,title,img_src,img_alt,description,stars,alcohol,extract,pri
 }
 
 
-//fja za dohvatanje niza proizvoda iz LSa
-var get_proizvodi = ()=>{
-  return JSON.parse(localStorage.getItem("proizvodi"));
-}
 
-//fja za upis niza proizvoda iz LSa
-var set_proizvodi = (proizvodi)=>{  
-  
-  localStorage.setItem("proizvodi",JSON.stringify(proizvodi));
-}
-
-
-
-// OVO SAM KASNIJE ISPRAVIO, ALI SAM I DALJE KORISTIO KONSTRUKTORSKU FJU
 
 var set_json = (data) => {
   
@@ -83,17 +160,18 @@ if(stranica_proizvoda!=null){
 
   // set_proizvodi(svi_proizvodi);
    
-async function asinhronost(){
+export default async function asinhronost(){
   try{
   var response = await fetch("/data/products.json");
   var data = await (response.json());
   //console.log(data);
   set_json(data);
+ 
   }catch (error) {
     console.error(error);
   }
 }
-asinhronost();
+//asinhronost();
 
 
 //1
@@ -142,8 +220,7 @@ function filtrirajCena(data){
     cena_ispis.innerHTML=`Prikazani proiznodi jeftiniji od: ${cena_poredjenje} din`
   }
   
-   //console.log(cena_poredjenje);
-    // sort_cena_labela.innerHTML="sortiraj po ceni("+cena+")";
+   
     if(cena_poredjenje==0){
       return data
     }
@@ -191,20 +268,19 @@ var prikaz_proizvoda_funkcija = () => {
   var prikaz_proizvodi = document.getElementById("prikaz_proizvodi");
   prikaz_proizvodi.innerHTML = "";
 
-  //var data = get_proizvodi();
-  //console.log(data);
+
   for (var i = 0; i < data.length; i++) {
     var pr = data[i];
 
-    // if (pr.price_new > cena) {
-    //   continue;
-    // }
+
 
     var div = document.createElement("div");
-    div.classList.add("col-4");
+    div.classList.add("col-md-6");
+    div.classList.add("col-lg-4");
     div.classList.add("text-center");
 
     var img = document.createElement("img");
+    img.classList.add("img-fluid");
     img.src = pr.img_src;
     img.alt = pr.img_alt;
     img.style.width = "100%";
@@ -276,15 +352,14 @@ var prikaz_proizvoda_funkcija = () => {
           //sadrzaj njegove korpe, za dalje posete
           set_korisnici(svi_korisnici);
           set_korisnik(kor);
-          //alert("Dodato u korpu");
-          ispis_malog_broja();
+
           return;
         }
       }
     });
 
     prikaz_proizvodi.appendChild(div);
-
+    ispis_malog_broja();
   }
   var sort_cena= document.getElementById("sort_cena");
   sort_cena.addEventListener("change", prikaz_proizvoda_funkcija);
@@ -292,44 +367,10 @@ var prikaz_proizvoda_funkcija = () => {
   
   var select_alcohol = document.getElementById("alcohol");
   select_alcohol.addEventListener("change",prikaz_proizvoda_funkcija);
-  //prikaz_proizvoda_funkcija();
+  
 };
 
 };
-
-var get_korisnici = ()=>{
-  return JSON.parse(localStorage.getItem("korisnici"));
-}
-
-var set_korisnici = (korisnici)=>{
-  localStorage.setItem("korisnici",JSON.stringify(korisnici));
-}
-
-var get_korisnik = ()=>{
-  return JSON.parse(localStorage.getItem("korisnik"));
-}
-
-var set_korisnik = (korisnik)=>{
-  localStorage.setItem("korisnik",JSON.stringify(korisnik));
-}
-
-
-var ispis_malog_broja = ()=>{
-  let ispis=document.getElementById("lblCartCount");
-  let privremeno = get_korisnik();
-  if(privremeno!=null){
-  
-  let sam_broj = privremeno.korpa.length;
-  
-  ispis.innerText=sam_broj;
-  // ispis.innerHTML=sam_broj;
-  
-  }else{
-    ispis.innerHTML="0";
-  }
-  
-}
-ispis_malog_broja();
 
 
 //ako nema upisa, dodao sam na silu jednog, cisto da proveravam funkcionalnost. ovo moze posle da se obrise
@@ -374,12 +415,7 @@ if(registruj!=null){
     }
 
     
-    // var potvrda = document.getElementById("potvrda").value;
 
-    //validacija
-    //korime jedinstveno
-    //format email adrese
-    //lozinka i potvrda iste
 
     var k = new korisnik(ime,prezime,korime,lozinka,email);
     var svi_korisnici = get_korisnici();
@@ -425,15 +461,6 @@ if(uloguj!=null){
   }
 }
 
-// kada se izloguje korisnik, postaje vidljiva forma login
-// mora na silu forma da se reloaduje da bi se videle sakrivene forme
-var logout = document.getElementById("logout");
-if(logout!=null){
-  logout.addEventListener("click",()=>{
-    localStorage.removeItem("korisnik");
-    location.href="index.html";
-  });
-}
 
 var api = document.getElementById("api");
 
