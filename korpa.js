@@ -17,8 +17,6 @@ if(stranicaKorpe!=null){
 
 
 function ispisKolica() {
-  //var korpa = document.getElementById("korpa");
-  //var stranicaKorpe = document.getElementById("stranica_korpa");
   var trenutni_korisnik = get_korisnik();
   if (trenutni_korisnik == null && stranicaKorpe != null) {
     alert("Ne mozete videti korpu posto niste ulogovani");
@@ -87,7 +85,7 @@ function ispisKolica() {
             set_korisnici(users);
         }
       }
-        //localStorage.removeItem("korisnik");
+     
         location.href="index.html"});
       
     }
@@ -95,7 +93,6 @@ function ispisKolica() {
     ispis_malog_broja();
   } else {
     true;
-    //console.log(trenutni_korisnik.korpa);
   }
   
 }

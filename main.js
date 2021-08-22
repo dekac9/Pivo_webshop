@@ -7,13 +7,11 @@ import { get_korisnici } from "./funkcije.js";
 import { set_korisnici } from "./funkcije.js";
 import { ispis_malog_broja } from "./funkcije.js";
 
-// za rad sa local storageom:
-//korisnici - svi korisnici
-//korisnik  - trenutno ulogovan korisnik
+//funkcija koja proverava da li je logovan korisnik ili niko nije logovan. Na osnovu toga, renderuje razlicite navbarove
 provera_za_navbar();
 
 //Konstruktor za korisnika
-function korisnik(ime, prezime, korime, lozinka, email) {
+function Korisnik(ime, prezime, korime, lozinka, email) {
   this.ime = ime;
   this.prezime = prezime;
   this.korime = korime;
@@ -23,7 +21,7 @@ function korisnik(ime, prezime, korime, lozinka, email) {
 }
 
 //Konstruktor za proizvode(znam da saljem i sto treba i sto ne treba)
-function proizvod(
+function Proizvod(
   id,
   title,
   img_src,
@@ -38,7 +36,6 @@ function proizvod(
   this.id = id;
   this.title = title;
   this.img_src = img_src + ".png";
-  //console.log(this.img_src);
   this.img_alt = img_alt;
   this.description = description;
   this.stars = stars;
@@ -49,11 +46,12 @@ function proizvod(
   this.broj = 1;
 }
 
+//asinhrona fja zove ovu tek kada stigne odgovor sa FETCha a ova postavlja niz u LS svih proizvoda koji postoje u JSONU
 var set_json = (data) => {
   var svi_proizvodi = [];
 
   for (var i = 0; i < data.length; i++) {
-    var obj = new proizvod(
+    var obj = new Proizvod(
       data[i].id,
       data[i].title,
       data[i].img.src,
@@ -65,8 +63,7 @@ var set_json = (data) => {
       data[i].price.old,
       data[i].price.new
     );
-    //alert("usao")
-    //console.log(obj);
+
     svi_proizvodi.push(obj);
   }
 
@@ -77,7 +74,7 @@ var set_json = (data) => {
   }
 };
 
-//PRETHODNI FETCH NAMERNO OSTAVIO
+//PRETHODNI FETCH NAMERNO OSTAVIO DA MI STOJI KAO PODSETNIK
 //console.log("proizvodi");
 //ODAVDE ZAKOMENTARISAO ZBOG ASYNC AWAITa
 // fetch("/data/products.json")
@@ -88,6 +85,9 @@ var set_json = (data) => {
 
 // set_proizvodi(svi_proizvodi);
 
+
+
+//glavna asinhr. fja koja vodi ispisivanje proizvoda, ali ne i navbara
 export default async function asinhronost() {
   try {
     var response = await fetch("/data/products.json");
@@ -98,20 +98,10 @@ export default async function asinhronost() {
     console.error(error);
   }
 }
-//asinhronost();
 
-//1
 
-var sort_cena = document.getElementById("sort_cena");
-if (sort_cena != null) {
-  sort_cena.addEventListener("change", prikaz_proizvoda_funkcija);
-}
 
-var select_alcohol = document.getElementById("alcohol");
-if (select_alcohol != null) {
-  select_alcohol.addEventListener("change", prikaz_proizvoda_funkcija);
-}
-
+//fja koja filtrira niz po alkoholu i vraca sredjen niz
 function filtrirajAlkohol(data) {
   //alert("alkohol")
   let alkohol_poredjenje = document.getElementById("alcohol").value;
@@ -129,6 +119,8 @@ function filtrirajAlkohol(data) {
   return niz_za_alkohol;
 }
 
+
+//fja koja filtrira niz po ceni i vraca sredjen niz
 function filtrirajCena(data) {
   let cena_ispis = document.getElementById("sort_cena_labela");
   let cena_poredjenje = document.getElementById("sort_cena").value;
@@ -151,13 +143,12 @@ function filtrirajCena(data) {
   return niz_za_cenu;
 }
 
-// });
 
+//glavna fja za ispis priozvoda na strani proizvoda
 const stranica_proizvoda = document.getElementById("proizvodi");
 if (stranica_proizvoda != null) {
   var prikaz_proizvoda_funkcija = () => {
     let data = get_proizvodi();
-
     var select = document.getElementById("alcohol");
     //console.log(select.length);
     if (select.length == 1) {
@@ -219,15 +210,11 @@ if (stranica_proizvoda != null) {
       div.appendChild(button);
       button.setAttribute("obj", JSON.stringify(pr));
       button.addEventListener("click", (e) => {
-        //ispis_malog_broja();
         var dugme = e.target;
-
         var pr = JSON.parse(dugme.getAttribute("obj"));
+        console.log(pr);
         //console.log(pr.id); radi
         var kor = get_korisnik();
-        //console.log(kor.korpa);
-        //console.log(pr);
-        //console.log(kor.korpa.id);
         if (kor == null) {
           alert("Morate biti ulogovani da bi dodali u korpu");
         } else {
@@ -282,7 +269,7 @@ if (stranica_proizvoda != null) {
 var korisnici_svi = get_korisnici();
 if (korisnici_svi == null) {
   korisnici_svi = [
-    new korisnik("pera", "peric", "pera123", "password", "pera@gmail.com"),
+    new Korisnik("pera", "peric", "pera123", "password", "pera@gmail.com"),
   ];
   set_korisnici(korisnici_svi);
 }
@@ -307,7 +294,7 @@ if (registruj != null) {
     var lozinka = document.getElementById("lozinka").value.trim();
     var email = document.getElementById("email").value.trim();
 
-    //provara da li je umnet podatak, treba za svaku stavku, mozda moze i pametnije
+    //provara da li je unet podatak, treba za svaku stavku, mozda moze i pametnije
     if (ime === "") {
       odgovor.innerHTML = "Niste uneli ime";
       return;
@@ -319,7 +306,7 @@ if (registruj != null) {
       return;
     }
 
-    var k = new korisnik(ime, prezime, korime, lozinka, email);
+    var k = new Korisnik(ime, prezime, korime, lozinka, email);
     var svi_korisnici = get_korisnici();
     svi_korisnici.push(k);
     set_korisnici(svi_korisnici);
@@ -331,12 +318,6 @@ if (registruj != null) {
 // LOGOVANJE
 var uloguj = document.getElementById("uloguj");
 if (uloguj != null) {
-  // u slucaju da je korisnik vec ulogovan, sakriva se login forma
-  if (get_korisnik() != null) {
-    odgovor.innerHTML = "Vec ste ulogovani";
-    var forma_login = document.getElementById("forma_login");
-    forma_login.style.display = "none";
-  } else {
     uloguj.addEventListener("click", (e) => {
       e.preventDefault();
       var korime = document.getElementById("korime").value;
@@ -347,12 +328,6 @@ if (uloguj != null) {
         var k = svi_korisnici[i];
         if (korime == k.korime && lozinka == k.lozinka) {
           alert("Uspesno logovanje");
-
-          //treba da znam ako je korisnik ulogovan
-          //npr: korisnik dodje na stranicu za logovanje i uloguje se
-          //zatim ode da stavi proizvod u korpu
-          //moram da znam da li je korisnik ulogovan
-          //to radim tako sto proverim da li u localstorage postoji kljuc korisnik
           set_korisnik(k);
           document.location.href = "index.html";
           return;
@@ -361,8 +336,8 @@ if (uloguj != null) {
       alert("Pogresni podaci");
     });
   }
-}
 
+//API
 var api = document.getElementById("api");
 
 if (api != null) {
